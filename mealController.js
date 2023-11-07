@@ -9,6 +9,16 @@ const getAllMeals = async (req, res) => {
     }
 };
 
+const getSingleMeal = async (req, res) => {
+    try {
+        const { id: mealId } = req.params;
+        const meal = await Meal.findOne({ _id: mealId });
+        res.status(200).json({ meal });
+    } catch (error) {
+        res.status(500).json({ msg: error });
+    }
+};
+
 const createMeal = async (req, res) => {
     try {
         const meal = await Meal.create(req.body)
@@ -43,6 +53,7 @@ const editMeal = async (req, res) => {
 
 module.exports = {
     getAllMeals,
+    getSingleMeal,
     createMeal,
     deleteMeal,
     editMeal
