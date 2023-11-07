@@ -22,8 +22,7 @@ const deleteMeal = async (req, res) => {
     try {
         const { id: mealId } = req.params;
         const meal = await Meal.findOneAndDelete({ _id: mealId });
-        res.status(200).json({ meal });
-
+        res.status(200).json({ meal: null, status: "success" });
     } catch (error) {
         res.status(500).json({ msg: error });
     }
