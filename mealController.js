@@ -1,55 +1,36 @@
 const Meal = require('./mealModel');
+const asyncWrapper = require('./middleware/asyncWrapper')
 
-const getAllMeals = async (req, res) => {
-    try {
-        const meals = await Meal.find({});
-        res.status(200).json({ meals });
-    } catch (error) {
-        res.status(500).json({ msg: error });
-    }
-};
+const getAllMeals = asyncWrapper(async (req, res) => {
+    const meals = await Meal.find({});
+    res.status(200).json({ meals });
+});
 
-const getSingleMeal = async (req, res) => {
-    try {
-        const { id: mealId } = req.params;
-        const meal = await Meal.findOne({ _id: mealId });
-        res.status(200).json({ meal });
-    } catch (error) {
-        res.status(500).json({ msg: error });
-    }
-};
+const getSingleMeal = asyncWrapper(async (req, res) => {
+    const { id: mealId } = req.params;
+    const meal = await Meal.findOne({ _id: mealId });
+    res.status(200).json({ meal });
+});
 
-const createMeal = async (req, res) => {
-    try {
-        const meal = await Meal.create(req.body)
-        res.status(201).json({ meal })
-    } catch (error) {
-        res.status(500).json({ msg: error });
-    }
-};
+const createMeal = asyncWrapper(async (req, res) => {
+    const meal = await Meal.create(req.body)
+    res.status(201).json({ meal })
+});
 
-const deleteMeal = async (req, res) => {
-    try {
-        const { id: mealId } = req.params;
-        const meal = await Meal.findOneAndDelete({ _id: mealId });
-        res.status(200).json({ meal: null, status: "success" });
-    } catch (error) {
-        res.status(500).json({ msg: error });
-    }
-};
+const deleteMeal = asyncWrapper(async (req, res) => {
+    const { id: mealId } = req.params;
+    const meal = await Meal.findOneAndDelete({ _id: mealId });
+    res.status(200).json({ meal: null, status: "success" });
+});
 
-const editMeal = async (req, res) => {
-    try {
-        const { id: mealId }  = req.params;
-        const meal = await Meal.findOneAndUpdate({ _id: mealId }, req.body, {
+const editMeal = asyncWrapper(async (req, res) => {
+    const { id: mealId }  = req.params;
+    const meal = await Meal.findOneAndUpdate({ _id: mealId }, req.body, {
             new: true,
             runValidators: true
         });
         res.status(200).json({ meal })
-    } catch (error) {
-        res.status(500).json({ msg: error });
-    }
-};
+});
 
 module.exports = {
     getAllMeals,
