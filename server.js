@@ -3,6 +3,7 @@ const app = express();
 const routes = require('./mealRoutes')
 const mongoose = require('mongoose');
 const cors = require('cors');
+const notFound = require('./middleware/notFound');
 require('dotenv').config();
 
 mongoose.set('strictQuery', false)
@@ -11,7 +12,9 @@ const PORT = process.env.PORT || 4000;
 
 app.use(express.json()); 
 app.use(cors()); 
+
 app.use('/api/v1/meals', routes);
+app.use(notFound);
 
 const start = async() => {
     try {
