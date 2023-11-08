@@ -4,6 +4,7 @@ const routes = require('./mealRoutes')
 const mongoose = require('mongoose');
 const cors = require('cors');
 const notFound = require('./middleware/notFound');
+const errorHandler = require('./middleware/errorHandler');
 require('dotenv').config();
 
 mongoose.set('strictQuery', false)
@@ -15,6 +16,7 @@ app.use(cors());
 
 app.use('/api/v1/meals', routes);
 app.use(notFound);
+app.use(errorHandler);
 
 const start = async() => {
     try {
