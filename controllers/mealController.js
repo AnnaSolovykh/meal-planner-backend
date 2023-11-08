@@ -1,6 +1,6 @@
-const Meal = require('./mealModel');
-const asyncWrapper = require('./middleware/asyncWrapper');
-const { createCustomError } = require('./errors/customError');
+const Meal = require('../models/mealModel');
+const asyncWrapper = require('../middleware/asyncWrapper');
+const { createCustomError } = require('../errors/customError');
 
 const getAllMeals = asyncWrapper(async (req, res) => {
     const meals = await Meal.find({});

@@ -6,7 +6,7 @@ const {
     createMeal, 
     deleteMeal, 
     editMeal 
-} = require('./mealController');
+} = require('../controllers/mealController');
 
 router.route('/').get(getAllMeals).post(createMeal);
 router.route('/:id').get(getSingleMeal).delete(deleteMeal).patch(editMeal);

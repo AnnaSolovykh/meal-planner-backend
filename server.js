@@ -1,6 +1,6 @@
 const express = require('express');
 const app = express();
-const routes = require('./mealRoutes')
+const routes = require('./routes/mealRoutes')
 const mongoose = require('mongoose');
 const cors = require('cors');
 const notFound = require('./middleware/notFound');
