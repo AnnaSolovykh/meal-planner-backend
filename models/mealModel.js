@@ -6,7 +6,7 @@ const mealSchema = new mongoose.Schema({
         type: String, 
         required: [true, 'name must be provided'],
         trim: true,
-        maxlength: [20, 'the name of the meal should not be longer than 20 characters']
+        maxlength: [40, 'the name of the meal should not be longer than 40 characters']
     },
     type: {
         type: String,
