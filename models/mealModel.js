@@ -8,7 +8,17 @@ const mealSchema = new mongoose.Schema({
         trim: true,
         maxlength: [20, 'the name of the meal should not be longer than 20 characters']
     },
-    completed: {
+    type: {
+        type: String,
+        enum: [
+            'breakfast',
+            'snack',
+            'lunch',
+            'dinner',
+        ],
+        required: [true, 'type of the meal must be provided'],
+    },
+    favorite: {
         type: Boolean,
         default: false
     }
