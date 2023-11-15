@@ -1,0 +1,82 @@
+[
+    {
+        "title": "Porridge with Berries",
+        "type": "breakfast",
+        "favorite": false
+    },
+    {
+        "title": "Avocado Toast",
+        "type": "breakfast",
+        "favorite": false
+    },
+    {
+        "title": "Greek Yogurt with Honey and Nuts",
+        "type": "breakfast",
+        "favorite": false
+    },
+    {
+        "title": "Banana Pancakes",
+        "type": "breakfast",
+        "favorite": false
+    },
+    {
+        "title": "Apple Slices with Peanut Butter",
+        "type": "snack",
+        "favorite": false
+    },
+    {
+        "title": "Mixed Nuts and Raisins",
+        "type": "snack",
+        "favorite": false
+    },
+    {
+        "title": "Carrot Sticks and Hummus",
+        "type": "snack",
+        "favorite": false
+    },
+    {
+        "title": "Cheese and Crackers",
+        "type": "snack",
+        "favorite": false
+    },
+    {
+        "title": "Chicken Caesar Salad",
+        "type": "lunch",
+        "favorite": false
+    },
+    {
+        "title": "Turkey and Cheese Sandwich",
+        "type": "lunch",
+        "favorite": false
+    },
+    {
+        "title": "Vegetable Stir Fry",
+        "type": "lunch",
+        "favorite": false
+    },
+    {
+        "title": "Tomato Soup with Grilled Cheese",
+        "type": "lunch",
+        "favorite": false
+    },
+    {
+        "title": "Spaghetti Bolognese",
+        "type": "dinner",
+        "favorite": false
+    },
+    {
+        "title": "Grilled Salmon with Asparagus",
+        "type": "dinner",
+        "favorite": false
+    },
+    {
+        "title": "Chicken Tikka Masala",
+        "type": "dinner",
+        "favorite": false
+    },
+    {
+        "title": "Vegetable Lasagna",
+        "type": "dinner",
+        "favorite": false
+    }
+]
