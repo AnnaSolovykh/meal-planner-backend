@@ -3,7 +3,7 @@ const asyncWrapper = require('../middleware/asyncWrapper');
 const { createCustomError } = require('../errors/customError');
 
 const getAllMeals = asyncWrapper(async (req, res) => {
-    const { title, favorite, type } = req.query;
+    const { title, favorite, type, sort } = req.query;
     const queryObject = {};
 
     if (title) {
@@ -17,6 +17,12 @@ const getAllMeals = asyncWrapper(async (req, res) => {
     }
 
     let result = Meal.find(queryObject);
+    if (sort) {
+        const sortList = sort.split(',').join(' ');
+        result = result.sort(sortList);
+    } else {
+        result = result.sort('createdAt');
+    }
 
     const meals = await result;
     res.status(200).json({ meals });
