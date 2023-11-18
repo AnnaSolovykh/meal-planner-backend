@@ -18,7 +18,7 @@ const mealSchema = new mongoose.Schema({
         ],
         required: [true, 'type of the meal must be provided'],
     },
-    favorite: {
+    isFavorite: {
         type: Boolean,
         default: false
     },

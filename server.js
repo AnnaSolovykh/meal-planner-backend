@@ -12,7 +12,11 @@ mongoose.set('strictQuery', false)
 const PORT = process.env.PORT || 4000; 
 
 app.use(express.json()); 
-app.use(cors()); 
+app.use(
+    cors({
+        origin: 'http://localhost:3005',
+    })
+);
 
 app.use('/api/v1/meals', routes);
 app.use(notFound);

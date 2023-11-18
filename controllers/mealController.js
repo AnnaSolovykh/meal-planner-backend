@@ -3,14 +3,14 @@ const asyncWrapper = require('../middleware/asyncWrapper');
 const { createCustomError } = require('../errors/customError');
 
 const getAllMeals = asyncWrapper(async (req, res) => {
-    const { title, favorite, type, sort } = req.query;
+    const { title, isFavorite, type, sort } = req.query;
     const queryObject = {};
 
     if (title) {
         queryObject.title = { $regex: title, $options: 'i' };
     }
-    if (favorite) {
-        queryObject.favorite = favorite === 'true'? true : false;
+    if (isFavorite) {
+        queryObject.isFavorite = isFavorite === 'true'? true : false;
     }
     if (type) {
         queryObject.type = type;
