@@ -30,8 +30,11 @@ const getAllMeals = asyncWrapper(async (req, res) => {
 
     result = result.skip(skip).limit(limit);
 
+    const totalItems = await Meal.countDocuments(queryObject);
+    const totalPages = Math.ceil(totalItems / limit);
+
     const meals = await result;
-    res.status(200).json({ meals });
+    res.status(200).json({ meals, totalPages, currentPage: page  });
 });
 
 const getSingleMeal = asyncWrapper(async (req, res, next) => {
