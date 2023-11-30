@@ -2,7 +2,7 @@ require('dotenv').config();
 
 const mongoose = require('mongoose');
 
-const Meal = require('./models/mealModel');
+const Meal = require('./models/meal');
 const jsonMeals = require('./meals.json');
 
 const start = async() => {

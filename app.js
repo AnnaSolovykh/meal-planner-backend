@@ -1,10 +1,10 @@
 const express = require('express');
 const app = express();
-const routes = require('./routes/mealRoutes')
+const routes = require('./routes/meal')
 const mongoose = require('mongoose');
 const cors = require('cors');
-const notFound = require('./middleware/notFound');
-const errorHandler = require('./middleware/errorHandler');
+const notFound = require('./middleware/not-found');
+const errorHandler = require('./middleware/error-handler');
 require('dotenv').config();
 
 mongoose.set('strictQuery', false)

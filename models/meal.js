@@ -1,7 +1,7 @@
 
 const mongoose = require('mongoose');
 
-const mealSchema = new mongoose.Schema({
+const MealSchema = new mongoose.Schema({
     title: {
         type: String, 
         required: [true, 'name must be provided'],
@@ -22,10 +22,11 @@ const mealSchema = new mongoose.Schema({
         type: Boolean,
         default: false
     },
-    createdAt: {
-        type: Date,
-        default: Date.now(),
-    },
-});
+    createdBy: {
+        type: mongoose.Types.ObjectId,
+        ref: 'User',
+        required: [true, 'Please provide a user']
+    }
+}, { timestamps: true });
 
-module.exports = mongoose.model('Meal', mealSchema);
+module.exports = mongoose.model('Meal', MealSchema);
