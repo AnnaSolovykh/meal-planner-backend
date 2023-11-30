@@ -1,6 +1,7 @@
 const Meal = require('../models/meal');
 const asyncWrapper = require('../middleware/async-wrapper');
-const { createCustomError } = require('../errors/custom-error');
+const { StatusCodes } = require('http-status-codes');
+const { NotFoundError } = require('../errors');
 
 const getAllMeals = asyncWrapper(async (req, res) => {
     const { title, isFavorite, type, sort } = req.query;
@@ -34,30 +35,30 @@ const getAllMeals = asyncWrapper(async (req, res) => {
     const totalPages = Math.ceil(totalItems / limit);
 
     const meals = await result;
-    res.status(200).json({ meals, totalPages, currentPage: page  });
+    res.status(StatusCodes.OK).json({ meals, totalPages, currentPage: page  });
 });
 
 const getSingleMeal = asyncWrapper(async (req, res, next) => {
     const { id: mealId } = req.params;
     const meal = await Meal.findOne({ _id: mealId });
     if (!meal) {
-        return next(createCustomError('Such a meal does not exist', 404));
+        throw new NotFoundError('Such a meal does not exist');
     }
-    res.status(200).json({ meal });
+    res.status(StatusCodes.OK).json({ meal });
 });
 
 const createMeal = asyncWrapper(async (req, res) => {
     const meal = await Meal.create(req.body)
-    res.status(201).json({ meal })
+    res.status(StatusCodes.CREATED).json({ meal })
 });
 
 const deleteMeal = asyncWrapper(async (req, res, next) => {
     const { id: mealId } = req.params;
     const meal = await Meal.findOneAndDelete({ _id: mealId });
     if (!meal) {
-        return next(createCustomError('Such a meal does not exist', 404));
+        throw new NotFoundError('Such a meal does not exist');
     }
-    res.status(200).send();
+    res.status(StatusCodes.OK).send();
 });
 
 const editMeal = asyncWrapper(async (req, res, next) => {
@@ -67,9 +68,9 @@ const editMeal = asyncWrapper(async (req, res, next) => {
             runValidators: true
         });
     if (!meal) {
-        return next(createCustomError('Such a meal does not exist', 404));
+        throw new NotFoundError('Such a meal does not exist');
     }
-    res.status(200).json({ meal })
+    res.status(StatusCodes.OK).json({ meal })
 });
 
 module.exports = {
