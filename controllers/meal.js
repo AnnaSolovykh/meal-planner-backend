@@ -5,7 +5,7 @@ const { NotFoundError } = require('../errors');
 
 const getAllMeals = asyncWrapper(async (req, res) => {
     const { title, isFavorite, type, sort } = req.query;
-    const queryObject = {};
+    const queryObject = { createdBy: req.user.userId };
 
     if (title) {
         queryObject.title = { $regex: title, $options: 'i' };
@@ -40,7 +40,8 @@ const getAllMeals = asyncWrapper(async (req, res) => {
 
 const getSingleMeal = asyncWrapper(async (req, res, next) => {
     const { id: mealId } = req.params;
-    const meal = await Meal.findOne({ _id: mealId });
+    const createdBy = req.user.userId; 
+    const meal = await Meal.findOne({ _id: mealId, createdBy });
     if (!meal) {
         throw new NotFoundError('Such a meal does not exist');
     }
@@ -48,13 +49,16 @@ const getSingleMeal = asyncWrapper(async (req, res, next) => {
 });
 
 const createMeal = asyncWrapper(async (req, res) => {
+    const createdBy = req.user.userId
+    req.body.createdBy = createdBy;
     const meal = await Meal.create(req.body)
     res.status(StatusCodes.CREATED).json({ meal })
 });
 
 const deleteMeal = asyncWrapper(async (req, res, next) => {
     const { id: mealId } = req.params;
-    const meal = await Meal.findOneAndDelete({ _id: mealId });
+    const createdBy = req.user.userId; 
+    const meal = await Meal.findOneAndDelete({ _id: mealId, createdBy });
     if (!meal) {
         throw new NotFoundError('Such a meal does not exist');
     }
@@ -63,7 +67,8 @@ const deleteMeal = asyncWrapper(async (req, res, next) => {
 
 const editMeal = asyncWrapper(async (req, res, next) => {
     const { id: mealId }  = req.params;
-    const meal = await Meal.findOneAndUpdate({ _id: mealId }, req.body, {
+    const createdBy = req.user.userId; 
+    const meal = await Meal.findOneAndUpdate({ _id: mealId, createdBy }, req.body, {
             new: true,
             runValidators: true
         });

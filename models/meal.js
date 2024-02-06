@@ -22,11 +22,13 @@ const MealSchema = new mongoose.Schema({
         type: Boolean,
         default: false
     },
-    // createdBy: {
-    //     type: mongoose.Types.ObjectId,
-    //     ref: 'User',
-    //     required: [true, 'Please provide a user']
-    // }
-}, { timestamps: true });
+    createdBy: {
+        type: mongoose.Types.ObjectId,
+        ref: 'User',
+        required: [true, 'Please provide a user']
+    }
+}, 
+{ timestamps: true }
+);
 
 module.exports = mongoose.model('Meal', MealSchema);
