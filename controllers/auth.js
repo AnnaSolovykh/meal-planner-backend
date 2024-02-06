@@ -34,7 +34,7 @@ const login = async (req, res) => {
     
     req.session.userId = user._id; 
     req.session.isAuthenticated = true;
-    console.log(req.headers)
+
     const token = user.createJWT();
     res 
         .status(StatusCodes.OK)
