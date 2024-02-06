@@ -68,7 +68,7 @@ const logout = async (req, res) => {
                 tokenBlacklisted = true;
             } else {
                 return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ error: 'An error occurred during logout' });
-            }
+            } 
         }
     }
 

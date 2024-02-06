@@ -10,6 +10,11 @@ const auth = async (req, res, next) => {
 
     const token = authHeader.split(' ')[1];
 
+    const payload = jwt.verify(token, process.env.JWT_SECRET);
+    if (payload.exp <= Date.now() / 1000) {
+        throw new UnauthenticatedError('Token has expired');
+    }
+
     const isBlacklisted = await TokenBlacklist.findOne({ token });
     if (isBlacklisted) {
         throw new UnauthenticatedError('Token has been invalidated');
