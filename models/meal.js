@@ -1,4 +1,3 @@
-
 const mongoose = require('mongoose');
 
 const MealSchema = new mongoose.Schema({
@@ -22,13 +21,23 @@ const MealSchema = new mongoose.Schema({
         type: Boolean,
         default: false
     },
+    calories: {
+        type: Number,
+        required: [false, 'Please specify the calories (optional)'],
+    },
+    ingredients: [{
+        type: String,
+        required: [true, 'Please provide the ingredients for the meal']
+    }],
+    shareAs: {
+        type: String,
+        required: [true, 'Please provide the link to the recipe']
+    },
     createdBy: {
         type: mongoose.Types.ObjectId,
         ref: 'User',
         required: [true, 'Please provide a user']
-    }
-}, 
-{ timestamps: true }
-);
+    },
+}, { timestamps: true });
 
 module.exports = mongoose.model('Meal', MealSchema);
