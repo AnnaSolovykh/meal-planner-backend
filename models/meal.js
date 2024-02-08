@@ -23,15 +23,30 @@ const MealSchema = new mongoose.Schema({
     },
     calories: {
         type: Number,
-        required: [false, 'Please specify the calories (optional)'],
+        required: false,
+        min: [0, 'Calories must be a positive number'],
+        max: [5000, 'Calories must be less than 5000'] 
     },
-    ingredients: [{
+    ingredients: {
+        type: [String],
+        required: false,
+        validate: {
+            validator: function(value) {
+                const doesNotExceedMaxItems = value.length <= 20;
+                return doesNotExceedMaxItems;
+            },
+            message: 'Please list up to 20 ingredients, each as a separate item.'
+        }
+    },
+    link: {
         type: String,
-        required: [true, 'Please provide the ingredients for the meal']
-    }],
-    shareAs: {
-        type: String,
-        required: [true, 'Please provide the link to the recipe']
+        required: [true, 'Please provide the link to the recipe'],
+        validate: {
+            validator: function(v) {
+                return /^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/.test(v);
+            },
+            message: 'Please provide a valid URL'
+        }
     },
     createdBy: {
         type: mongoose.Types.ObjectId,

@@ -51,6 +51,11 @@ const getSingleMeal = asyncWrapper(async (req, res, next) => {
 const createMeal = asyncWrapper(async (req, res) => {
     const createdBy = req.user.userId
     req.body.createdBy = createdBy;
+    const ingredients = req.body.ingredients;
+    if (!Array.isArray(ingredients) || ingredients.some(item => typeof item !== 'string')) {
+        return res.status(400).json({ message: "Ingredients should contain text." });
+    }
+
     const meal = await Meal.create(req.body)
     res.status(StatusCodes.CREATED).json({ meal })
 });
