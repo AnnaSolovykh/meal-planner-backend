@@ -15,9 +15,9 @@ const sessionOptions= {
     saveUninitialized: true,
     store: store,
     cookie: {
-        // Ensures the browser only sends the cookie over HTTPS
-        secure: false, // once its deployment change it to true
-        sameSite: 'strict',
+        secure: false, // ensures the browser only sends the cookie over HTTPS - after deployment change it to true
+        sameSite: 'strict',//controls its cross-site sending behavio
+        httpOnly: true,// prevents client-side scripts from accessing the cookie
     },
 };
 

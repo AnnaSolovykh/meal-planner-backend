@@ -22,10 +22,16 @@ const errorHandler = require('./middleware/error-handler');
 
 const PORT = process.env.PORT || 4000; 
 
-//seciruty
 app.use(express.json()); 
+
+//security
 app.set('trust proxy', 1);
 app.use(session(sessionOptions));
+
+const helmet = require('helmet');
+const xss = require('xss-clean');
+const rateLimiter = require('express-rate-limit');
+const hpp = require('hpp');
 
 //security
 app.use(
@@ -33,6 +39,16 @@ app.use(
         origin: 'http://localhost:3005',
     })
 );
+
+app.use(
+    rateLimiter({ //enforces rate limits on incoming requests to prevent brute-force 
+        windowMs: 15 * 60 * 1000, 
+        max: 100, 
+    })
+);
+app.use(helmet()); //sets various HTTP headers to protect against common web vulnerabilities
+app.use(xss()); //protects against cross-site scripting attacks by sanitizing user input and content.
+app.use(hpp()); //protects against HTTP Parameter Pollution, ensuring only the first parameter is processed to prevent exploiting query parameters
 
 // routes
 app.use('/api/v1/auth', authRouter);
