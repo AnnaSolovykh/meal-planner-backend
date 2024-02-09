@@ -10,9 +10,9 @@ const getAllMeals = asyncWrapper(async (req, res) => {
     if (title) {
         queryObject.title = { $regex: title, $options: 'i' };
     }
-    if (isFavorite) {
-        queryObject.isFavorite = isFavorite === 'true'? true : false;
-    }
+    if (isFavorite !== undefined) {
+        queryObject.isFavorite = isFavorite === 'true';
+      }
     if (type) {
         queryObject.type = type;
     }
