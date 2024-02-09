@@ -3,9 +3,9 @@ const mongoose = require('mongoose');
 const MealSchema = new mongoose.Schema({
     title: {
         type: String, 
-        required: [true, 'name must be provided'],
+        required: [true, 'Name must be provided'],
         trim: true,
-        maxlength: [40, 'the name of the meal should not be longer than 40 characters']
+        maxlength: [40, 'The name of the meal should not be longer than 40 characters']
     },
     type: {
         type: String,
@@ -15,7 +15,7 @@ const MealSchema = new mongoose.Schema({
             'lunch',
             'dinner',
         ],
-        required: [true, 'type of the meal must be provided'],
+        required: [true, 'The type of the meal must be provided'],
     },
     isFavorite: {
         type: Boolean,

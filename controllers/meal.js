@@ -12,7 +12,7 @@ const getAllMeals = asyncWrapper(async (req, res) => {
     }
     if (isFavorite !== undefined) {
         queryObject.isFavorite = isFavorite === 'true';
-      }
+    }
     if (type) {
         queryObject.type = type;
     }
