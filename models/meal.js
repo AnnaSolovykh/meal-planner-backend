@@ -40,10 +40,11 @@ const MealSchema = new mongoose.Schema({
     },
     link: {
         type: String,
+        trim: true,
         required: [true, 'Please provide the link to the recipe'],
         validate: {
-            validator: function(v) {
-                return /^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/.test(v);
+            validator: function(value) {
+                return /^(https?:\/\/)?([\da-z\.-]+)\.([a-z]{2,20})([\/\w \.-]*)*\/?(\?[\/\w \.-=&%]*)?$/.test(value);
             },
             message: 'Please provide a valid URL'
         }
