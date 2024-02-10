@@ -20,9 +20,9 @@ const authenticateUser = require('./middleware/auth');
 const notFound = require('./middleware/not-found');
 const errorHandler = require('./middleware/error-handler');
 
-const PORT = process.env.PORT || 4000; 
+const PORT = process.env.PORT || 4000;
 
-app.use(express.json()); 
+app.use(express.json());
 
 //security
 app.set('trust proxy', 1);
@@ -35,16 +35,17 @@ const hpp = require('hpp');
 
 //security
 app.use(
-    cors({
-        origin: 'http://localhost:3005',
-    })
+  cors({
+    origin: 'http://localhost:3005',
+  })
 );
 
 app.use(
-    rateLimiter({ //enforces rate limits on incoming requests to prevent brute-force 
-        windowMs: 15 * 60 * 1000, 
-        max: 100, 
-    })
+  rateLimiter({
+    //enforces rate limits on incoming requests to prevent brute-force
+    windowMs: 15 * 60 * 1000,
+    max: 100,
+  })
 );
 app.use(helmet()); //sets various HTTP headers to protect against common web vulnerabilities
 app.use(xss()); //protects against cross-site scripting attacks by sanitizing user input and content.
@@ -58,13 +59,13 @@ app.use('/api/v1/meals', authenticateUser, mealsRoutes);
 app.use(notFound);
 app.use(errorHandler);
 
-const start = async() => {
-    try {
-        await connectDB(process.env.MONGODB_LINK)
-        app.listen(PORT, console.log(`Server is listening on ${PORT}`));
-    } catch (error) {
-        console.log(error)
-    }
+const start = async () => {
+  try {
+    await connectDB(process.env.MONGODB_LINK);
+    app.listen(PORT, console.log(`Server is listening on ${PORT}`));
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 start();
