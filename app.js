@@ -24,6 +24,10 @@ const PORT = process.env.PORT || 4000;
 
 app.use(express.json());
 
+//swagger
+const swaggerUi = require('swagger-ui-express');
+const swaggerDocument = require('./swagger-output.json');
+
 //security
 app.set('trust proxy', 1);
 app.use(session(sessionOptions));
@@ -36,7 +40,7 @@ const hpp = require('hpp');
 //security
 app.use(
   cors({
-    origin: 'http://localhost:3005',
+    origin: ['http://localhost:3005', 'https://meal-planner-front.vercel.app'],
   })
 );
 
@@ -50,6 +54,9 @@ app.use(
 app.use(helmet()); //sets various HTTP headers to protect against common web vulnerabilities
 app.use(xss()); //protects against cross-site scripting attacks by sanitizing user input and content.
 app.use(hpp()); //protects against HTTP Parameter Pollution, ensuring only the first parameter is processed to prevent exploiting query parameters
+
+//swagger
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // routes
 app.use('/api/v1/auth', authRouter);

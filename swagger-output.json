@@ -1,0 +1,372 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Meals Planner",
+    "description": "Daily Meals Options",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://meal-planner-2qb0.onrender.com/api/v1"
+    }
+  ],
+  "paths": {
+    "/auth/register": {
+      "post": {
+        "description": "Register a new user",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "example": "Anna Sol"
+                  },
+                  "email": {
+                    "type": "string",
+                    "example": "anna@example.com"
+                  },
+                  "password": {
+                    "type": "string",
+                    "example": "password123"
+                  }
+                },
+                "required": ["name", "email", "password"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "User successfully registered"
+          },
+          "400": {
+            "description": "Invalid input"
+          }
+        }
+      }
+    },
+    "/auth/login": {
+      "post": {
+        "description": "Login a user",
+        "responses": {
+          "200": {
+            "description": "User successfully logged in"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "example": "anna@gmail.com"
+                  },
+                  "password": {
+                    "type": "string",
+                    "example": "secret"
+                  }
+                },
+                "required": ["email", "password"]
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/logout": {
+      "post": {
+        "description": "Logs out the current user by invalidating their authentication token.",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "description": "Provide the authentication token as 'Bearer &lt;token&gt;'. Replace &lt;token&gt; with your actual token.",
+            "schema": {
+              "type": "string",
+              "format": "Bearer <token>"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User successfully logged out."
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing authentication token."
+          }
+        }
+      }
+    },
+    "/meals": {
+      "get": {
+        "description": "Get a list of meals",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of meals"
+          },
+          "401": {
+            "description": "Invalid authentication"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "post": {
+        "description": "Create a new meal",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Meal successfully created"
+          },
+          "400": {
+            "description": "Invalid input"
+          },
+          "401": {
+            "description": "Invalid authentication"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "title": {
+                    "type": "string",
+                    "maxLength": 40,
+                    "example": "Delicious Pancakes"
+                  },
+                  "type": {
+                    "type": "string",
+                    "enum": ["breakfast", "snack", "lunch", "dinner"],
+                    "example": "breakfast"
+                  },
+                  "isFavorite": {
+                    "type": "boolean",
+                    "example": false
+                  },
+                  "calories": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 5000,
+                    "example": 350
+                  },
+                  "ingredients": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "example": ["1 cup flour", "2 eggs", "1 cup milk"],
+                    "maxItems": 20
+                  },
+                  "link": {
+                    "type": "string",
+                    "example": "http://example.com/recipe"
+                  },
+                  "createdBy": {
+                    "type": "string",
+                    "description": "User ID of the creator"
+                  }
+                },
+                "required": ["title", "type", "link", "createdBy"]
+              }
+            }
+          }
+        }
+      }
+    },
+    "/meals/{id}": {
+      "get": {
+        "description": "Get a meal by ID",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Meal details"
+          },
+          "401": {
+            "description": "Invalid authentication"
+          },
+          "404": {
+            "description": "Meal not found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "delete": {
+        "description": "Delete a meal by ID",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Meal deleted"
+          },
+          "401": {
+            "description": "Invalid authentication"
+          },
+          "404": {
+            "description": "Meal not found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "patch": {
+        "description": "Update a meal by ID",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": false,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "title": {
+                    "type": "string",
+                    "maxLength": 40,
+                    "description": "Name of the meal, up to 40 characters."
+                  },
+                  "type": {
+                    "type": "string",
+                    "enum": ["breakfast", "snack", "lunch", "dinner"],
+                    "description": "The type of the meal."
+                  },
+                  "isFavorite": {
+                    "type": "boolean",
+                    "description": "Flag to mark the meal as a favorite."
+                  },
+                  "calories": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 5000,
+                    "description": "Caloric content of the meal."
+                  },
+                  "ingredients": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "maxItems": 20,
+                    "description": "List of ingredients, up to 20 items."
+                  },
+                  "link": {
+                    "type": "string",
+                    "description": "URL to the recipe or meal information."
+                  }
+                },
+                "example": {
+                  "title": "Updated Delicious Pancakes",
+                  "type": "breakfast",
+                  "isFavorite": false,
+                  "calories": 300,
+                  "ingredients": ["1 cup flour", "2 eggs", "1 cup milk"],
+                  "link": "http://example.com/updated-recipe"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Meal updated"
+          },
+          "401": {
+            "description": "Invalid authentication"
+          },
+          "404": {
+            "description": "Invalid input"
+          },
+          "400": {
+            "description": "Meal not found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT",
+        "description": "Enter your bearer token in the format **&lt;token&gt;**. Do not include 'Bearer' or any other prefixes; only the token itself."
+      }
+    }
+  }
+}
